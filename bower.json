@@ -1,0 +1,8 @@
+{
+  "name" : "zap",
+  "dependencies" : {
+    "bootstrap" : "*",
+    "html5shiv" : "*",
+    "respond" : "*"
+  }
+}

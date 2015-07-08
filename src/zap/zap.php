@@ -8,7 +8,7 @@
         $position = $transformation->position();
         $color = $transformation->color();
         $alpha = 1.27 * (100 - ($color->alpha() * 100.00));
-        $opacity = 1.27 * (100 - ($transformation->opacity() * 100.00));
+        $opacity = $transformation->opacity();
         $roBack = imagecolorallocatealpha($streamOut->resource(), $color->red(), $color->green(), $color->blue(), 127.0);
         $ouBack = imagecolorallocatealpha($streamOut->resource(), $color->red(), $color->green(), $color->blue(), $alpha);
         $this->opacity($streamIn, $opacity);
@@ -26,13 +26,14 @@
       }
       
       private function opacity(&$stream, $opacity){
-        if(intval($opacity) === 0) return;
+        if(intval($opacity) === 1) return;
         list($w, $h) = array($stream->width(), $stream->height());
         for($i = 0, $j = ($w * $h), $x = 0, $y = 0; $i < $j; ++$i, $x += (($y === $h) ? 1 : 0), $y = (($y < $h) ? $y + 1 : 0)){
           $rgb = imagecolorat($stream->resource(), $x, $y);
           $ici = imagecolorsforindex($stream->resource(), $rgb);
           list($r, $g, $b, $a) = array(($rgb >> 16) & 0xFF, ($rgb >> 8) & 0xFF, ($rgb) & 0xFF, $ici['alpha']);
-          $color = imagecolorallocatealpha($stream->resource(), $r, $g, $b, min($a + $opacity, 127.0));
+          $alpha = $a + ((127.0 - $a) * (1.0 - $opacity));
+          $color = imagecolorallocatealpha($stream->resource(), $r, $g, $b, min($alpha, 127.0));
           imagesetpixel($stream->resource(), $x, $y, $color);
         }
       }

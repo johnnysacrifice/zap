@@ -99,6 +99,10 @@ $transformation = new ZapTransformation(
   
 Yes, it is. The source code is bundled with a demo web application.
 Just navigate to the index page and then give it a go!
+
+#### First run
+
+`bower instasll`
   
 ## Any legal issue?
   

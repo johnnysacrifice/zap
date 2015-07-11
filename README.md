@@ -102,7 +102,7 @@ Just navigate to the index page and then give it a go!
 
 #### First run
 
-`bower instasll`
+`bower install`
   
 ## Any legal issue?
   
